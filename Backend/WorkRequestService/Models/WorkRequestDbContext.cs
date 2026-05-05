@@ -31,10 +31,14 @@ public class WorkRequestDbContext : DbContext
                 .HasMaxLength(20)
                 .IsRequired();
 
+            entity.HasIndex(x => x.Priority);
+
             entity.Property(x => x.Status)
                 .HasConversion<string>()
                 .HasMaxLength(20)
                 .IsRequired();
+
+            entity.HasIndex(x => x.Status);
 
             entity.Property(x => x.DueDate)
                 .IsRequired();
