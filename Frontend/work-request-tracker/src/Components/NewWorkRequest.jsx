@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { getWorkRequests, createWorkRequest, updateWorkRequestStatus, addNoteToWorkRequest } from '../services/workRequestsService';
 
 
-function NewWorkRequest() {
+function NewWorkRequest({ fetchWorkRequests }) {
   const [newRequest, setNewRequest] = useState({
     title: '',
     clientName: '',
@@ -12,8 +12,6 @@ function NewWorkRequest() {
     dueDate: ''
   });
   const [loading, setLoading] = useState(false);
-
-
 
   const handleCreate = async (e) => {
     e.preventDefault();

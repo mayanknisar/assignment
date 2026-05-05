@@ -6,12 +6,25 @@ import './App.css';
 
 function App() {
   const [createNew, setCreateNew] = useState(false);
+  const [workRequests, setWorkRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fetchWorkRequests = async () => {
+    setLoading(true);
+    try {
+      const data = await getWorkRequests();
+      setWorkRequests(data);
+    } catch (error) {
+      console.error('Failed to fetch work requests:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="app">
       <h1>Work Request Tracker</h1>
       <button onClick={() => setCreateNew(!createNew)}> {createNew ? 'Close' : 'Create New Work Request'}</button>
-      {createNew ? <NewWorkRequest /> : <WorkRequestList />}
+      {createNew ? <NewWorkRequest fetchWorkRequests={fetchWorkRequests} workRequests={workRequests} loading={loading} /> : <WorkRequestList fetchWorkRequests={fetchWorkRequests} workRequests={workRequests} loading={loading} />}
 
     </div>
   );

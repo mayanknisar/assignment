@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getWorkRequests, createWorkRequest, updateWorkRequestStatus, addNoteToWorkRequest } from '../services/workRequestsService';
 
-function WorkRequestList() {
-    const [workRequests, setWorkRequests] = useState([]);
+function WorkRequestList({ fetchWorkRequests, workRequests, loading }) {
+    // const [workRequests, setWorkRequests] = useState([]);
     const [filters, setFilters] = useState({ status: '', search: '', page: 1, pageSize: 10 });
 
     const filteredRequests = useMemo(() => {
@@ -15,24 +15,12 @@ function WorkRequestList() {
             return matchesStatus && matchesSearch;
         });
     }, [filters, workRequests]);
-    const [loading, setLoading] = useState(false);
-
-    const fetchWorkRequests = useCallback(async () => {
-        setLoading(true);
-        try {
-            const data = await getWorkRequests(filters);
-            setWorkRequests(data);
-        } catch (error) {
-            console.error('Failed to fetch work requests:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [filters]);
+    //const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchWorkRequests();
-    }, [fetchWorkRequests]);
+    }, []);
 
 
     const handleStatusUpdate = async (id, status) => {
